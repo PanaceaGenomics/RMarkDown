@@ -1,0 +1,58 @@
+---
+title: "ggplot-Intro"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Plan 
+We'll load libraries and learn ggplot2.
+
+# Hashtags identifies headings!
+```{r}
+summary(cars)
+```
+## Load libraries
+```{r}
+library(dplyr)
+library(gapminder)
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r}
+g <-  gapminder %>% 
+  filter(year == 2007) %>% 
+  mutate(pop_m = pop/1e6)
+```
+## My first plot
+```{r}
+s <-  ggplot(g, aes(x=gdpPercap, y=lifeExp))+ geom_point()
+print(s)
+```
+
+```{r}
+s2= s + aes(size = pop_m)
+s2
+s3 =s2 + aes (color= continent)
+s3
+```
+
+# nice piped
+```{r}
+s <-  ggplot(g, aes(x=gdpPercap, y=lifeExp))+ geom_point()+aes(size = pop_m)+aes (color= continent)+ggtitle("Health and wealth of nations for 2007")+xlab("GDP per Capita")+ylab("Life expectancy")+
+  scale_color_discrete('Continent')+
+  scale_size_continuous('Population (M)')
+s
+```
+
+## Make a box plot
+This is my box-plot of continent and life expectancy
+```{r}
+s <-  ggplot(g, aes(x= continent, y=lifeExp))+
+  geom_boxplot()+aes (color= continent)+ggtitle("Health and wealth of nations for 2007")+xlab("Continent")+ylab("Life expectancy")
+s
+```
+
